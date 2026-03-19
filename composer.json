@@ -1,0 +1,20 @@
+{
+  "name": "iv-litovchenko/php-air-buttons",
+  "description": "Frontend editing overlay buttons (PHPAirButtons) — UI overlay + fluent PHP builders.",
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "litovchenko"
+    }
+  ],
+  "require": {
+    "php": ">=7.2"
+  },
+  "autoload": {
+    "psr-4": {
+      "Litovchenko\\PhpAirButtons\\": "src/"
+    }
+  }
+}
+

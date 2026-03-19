@@ -1,0 +1,9 @@
+TODO (PHPAirButtons / composer package)
+
+1) [in_progress] На `public/demo-landing.php` создать отдельный блок для нижней панели (`controls` / панель админ-редактирования с заметками).
+2) [pending] На `public/demo-landing.php` сделать выделение области редактирования, к которой относится каждая кнопка (визуальный хинт/обводка).
+3) [pending] На `public/demo-landing.php` сделать смену темы оформления на светлую (light mode toggle).
+
+4) [pending] Опционально: добавить workflow publish assets (кроме inline `<style>`), если потребителю нужен `<link>` с отдельным файлом.
+5) [pending] Собрать демо в `examples/` (wrappers) и адаптировать пути, чтобы пакет был максимально чистым (без смешивания демо и библиотеки).
+

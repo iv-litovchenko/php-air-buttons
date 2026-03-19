@@ -1,0 +1,440 @@
+/* Кастомные теги PHPAirButton — не используем span/div внутри панелей */
+phpair-admin-panel,
+phpair-edit-icons,
+phpair-new-icon,
+phpair-topbar,
+phpair-side-left,
+phpair-side-right,
+phpair-tile,
+phpair-glyph,
+phpair-caption,
+phpair-brand-label,
+phpair-edit-scope,
+phpair-capsule,
+phpair-edit-actions,
+phpair-login-shell,
+phpair-alert,
+phpair-field-block,
+phpair-actions-row {
+  box-sizing: border-box;
+}
+
+phpair-login-shell {
+  display: block;
+}
+
+phpair-field-block {
+  display: block;
+}
+
+phpair-actions-row {
+  display: block;
+}
+
+phpair-alert {
+  display: block;
+}
+
+phpair-admin-panel,
+phpair-edit-icons,
+phpair-new-icon {
+  display: block;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+phpair-tile {
+  display: inline-flex;
+}
+
+phpair-glyph {
+  font-size: 14px;
+  line-height: 1;
+}
+
+phpair-caption {
+  display: inline;
+}
+
+phpair-brand-label {
+  display: inline;
+  max-width: 180px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+phpair-capsule {
+  display: inline-flex;
+  align-items: center;
+}
+
+.phpair-admin-root,
+.phpair-edit-root {
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+/* Верхняя панель */
+phpair-topbar {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  background: rgba(15, 23, 42, 0.96);
+  border-radius: 0;
+  border-top: 1px solid rgba(148, 163, 184, 0.7);
+  border-bottom: 1px solid rgba(15, 23, 42, 1);
+  box-shadow: 0 10px 25px rgba(15, 23, 42, 0.9);
+  color: #e5e7eb;
+  z-index: 1000;
+}
+
+phpair-side-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+phpair-side-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.phpair-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none;
+  color: #64748b;
+  font-weight: 500;
+  font-size: 13px;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.phpair-logo:hover {
+  opacity: 0.88;
+}
+
+/* Капсулы / ряды кнопок */
+.phpair-button-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 8px;
+  border-radius: 10px;
+  background: radial-gradient(circle at top left, rgba(148, 163, 184, 0.35), transparent 55%),
+              rgba(17, 24, 39, 0.95);
+  border: 1px solid rgba(148, 163, 184, 0.9);
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.85);
+  text-decoration: none;
+  color: inherit;
+}
+
+.phpair-button-row:hover {
+  border-color: rgba(248, 250, 252, 0.95);
+  box-shadow: 0 12px 28px rgba(15, 23, 42, 0.98);
+  background: radial-gradient(circle at top left, rgba(248, 250, 252, 0.45), transparent 55%),
+              rgba(17, 24, 39, 0.98);
+}
+
+.phpair-button-row--disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.phpair-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 24px;
+  height: 24px;
+  border-radius: 10px;
+  background: #111827;
+  border: 1px solid rgba(148, 163, 184, 0.7);
+  color: #e5e7eb;
+  font-size: 12px;
+  box-shadow: inset 0 0 0 1px rgba(15, 23, 42, 0.9);
+}
+
+.phpair-btn:hover {
+  filter: brightness(1.08);
+  border-color: #f9fafb;
+  box-shadow:
+    0 0 0 1px rgba(248, 250, 252, 0.85),
+    inset 0 0 0 1px rgba(15, 23, 42, 0.9);
+}
+
+a.phpair-btn > phpair-glyph {
+  font-size: 14px;
+  line-height: 1;
+}
+
+.phpair-btn-label {
+  padding: 0 4px;
+  font-size: 12px;
+  color: #e5e7eb;
+  white-space: nowrap;
+}
+
+.phpair-btn--edit {
+  border-color: rgba(59, 130, 246, 0.95);
+  box-shadow: 0 0 0 1px rgba(37, 99, 235, 0.4), inset 0 0 0 1px rgba(15, 23, 42, 0.9);
+}
+
+.phpair-btn--new {
+  border-color: rgba(16, 185, 129, 0.9);
+  box-shadow: 0 0 0 1px rgba(5, 150, 105, 0.4), inset 0 0 0 1px rgba(15, 23, 42, 0.9);
+}
+
+.phpair-btn--hide {
+  border-color: rgba(148, 163, 184, 0.9);
+}
+
+.phpair-btn--delete {
+  border-color: rgba(239, 68, 68, 0.9);
+  box-shadow: 0 0 0 1px rgba(220, 38, 38, 0.4), inset 0 0 0 1px rgba(15, 23, 42, 0.9);
+}
+
+.phpair-btn--move {
+  border-color: rgba(249, 115, 22, 0.9);
+  box-shadow: 0 0 0 1px rgba(234, 88, 12, 0.4), inset 0 0 0 1px rgba(15, 23, 42, 0.9);
+}
+
+.phpair-btn--cache {
+  border-color: rgba(168, 85, 247, 0.9);
+  box-shadow: 0 0 0 1px rgba(147, 51, 234, 0.35), inset 0 0 0 1px rgba(15, 23, 42, 0.9);
+}
+
+.phpair-btn--options {
+  border-color: rgba(56, 189, 248, 0.9);
+  box-shadow: 0 0 0 1px rgba(14, 165, 233, 0.35), inset 0 0 0 1px rgba(15, 23, 42, 0.9);
+}
+
+.phpair-btn--editing-on {
+  border-color: rgba(59, 130, 246, 0.95);
+  box-shadow:
+    0 0 0 1px rgba(37, 99, 235, 0.45),
+    inset 0 0 0 1px rgba(15, 23, 42, 0.9);
+}
+
+.phpair-btn--editing-off {
+  border-color: rgba(34, 197, 94, 0.95);
+  box-shadow:
+    0 0 0 1px rgba(22, 163, 74, 0.45),
+    inset 0 0 0 1px rgba(15, 23, 42, 0.9);
+}
+
+/* EditIcon: одна рамка (.phpair-button-row на phpair-edit-scope) + действия внутри неё */
+phpair-edit-scope.phpair-button-row {
+  justify-content: flex-start;
+}
+
+phpair-edit-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: 0;
+  max-width: 0;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    max-width 160ms ease,
+    margin-left 160ms ease,
+    opacity 120ms ease;
+}
+
+phpair-edit-scope:hover phpair-edit-actions {
+  max-width: 220px;
+  margin-left: 6px;
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.phpair-edit-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Логин / форма / вспомогательные элементы могут использовать те же базовые стили */
+.phpair-login-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at top left, rgba(56, 189, 248, 0.12), transparent 55%),
+              radial-gradient(circle at bottom right, rgba(249, 115, 22, 0.12), transparent 55%),
+              #020617;
+  color: #e5e7eb;
+}
+
+.phpair-login-card {
+  width: 100%;
+  max-width: 360px;
+  padding: 20px 22px;
+  border-radius: 16px;
+  border: 1px solid rgba(148, 163, 184, 0.5);
+  background: rgba(15, 23, 42, 0.98);
+  box-shadow: 0 24px 60px rgba(15, 23, 42, 0.95);
+}
+
+.phpair-login-card h1 {
+  margin: 0 0 10px;
+  font-size: 18px;
+}
+
+.phpair-login-card p {
+  margin: 0 0 12px;
+  font-size: 13px;
+  color: #9ca3af;
+}
+
+.phpair-field {
+  margin-bottom: 10px;
+}
+
+.phpair-field label {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 12px;
+  color: #cbd5f5;
+}
+
+.phpair-input {
+  width: 100%;
+  padding: 6px 8px;
+  border-radius: 8px;
+  border: 1px solid rgba(148, 163, 184, 0.7);
+  background: #020617;
+  color: #e5e7eb;
+  font-size: 13px;
+}
+
+.phpair-input:focus {
+  outline: 2px solid rgba(59, 130, 246, 0.9);
+  outline-offset: 1px;
+}
+
+.phpair-login-error {
+  margin-bottom: 10px;
+  padding: 6px 8px;
+  border-radius: 8px;
+  background: rgba(248, 113, 113, 0.1);
+  border: 1px solid rgba(248, 113, 113, 0.6);
+  color: #fecaca;
+  font-size: 12px;
+}
+
+.phpair-login-actions {
+  margin-top: 10px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.phpair-login-btn {
+  border: none;
+  cursor: pointer;
+}
+
+/* Выпадающее меню “Материалы” в верхней панели */
+phpair-materials {
+  display: inline-block;
+}
+
+.phpair-materials-dropdown {
+  position: relative;
+}
+
+.phpair-materials-summary {
+  list-style: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.phpair-materials-summary::-webkit-details-marker {
+  display: none;
+}
+
+phpair-materials-menu {
+  position: absolute;
+  top: 32px;
+  right: 0;
+  min-width: 260px;
+  max-width: 340px;
+  padding: 8px;
+  border-radius: 14px;
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  background: rgba(15, 23, 42, 0.97);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
+  font-size: 12px;
+  color: #e5e7eb;
+  z-index: 60;
+}
+
+phpair-materials-group {
+  display: block;
+  padding: 6px 6px;
+  border-radius: 12px;
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  background: rgba(17, 24, 39, 0.8);
+  margin-bottom: 6px;
+}
+
+phpair-materials-group--summary {
+  margin-bottom: 0;
+}
+
+phpair-materials-group-title {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: #9ca3af;
+}
+
+phpair-materials-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 6px 7px;
+  border-radius: 10px;
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  background: rgba(15, 23, 42, 0.85);
+}
+
+phpair-materials-item + phpair-materials-item {
+  margin-top: 4px;
+}
+
+.phpair-materials-name,
+phpair-materials-name {
+  font-size: 12px;
+  color: #e5e7eb;
+  text-decoration: none;
+}
+
+phpair-materials-meta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+phpair-materials-count {
+  font-size: 12px;
+  color: #9ca3af;
+}
+

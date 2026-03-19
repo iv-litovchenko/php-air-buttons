@@ -1,0 +1,2049 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <title>Кнопки редактирования — схема UI</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 20px;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #111827;
+      color: #e5e7eb;
+    }
+    h1, h2, h3 {
+      margin: 0 0 12px;
+      font-weight: 600;
+      color: #f9fafb;
+    }
+    h1 { font-size: 26px; }
+    h2 { font-size: 20px; margin-top: 28px; }
+    h3 { font-size: 16px; margin-top: 18px; }
+    p { margin: 4px 0 10px; color: #9ca3af; font-size: 14px; }
+    a { color: #38bdf8; }
+
+    .page {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .section {
+      margin-bottom: 32px;
+      padding: 16px 18px;
+      border-radius: 14px;
+      border: 1px solid rgba(148, 163, 184, 0.3);
+      background: radial-gradient(circle at top left, rgba(56, 189, 248, 0.09), transparent 55%),
+                  radial-gradient(circle at bottom right, rgba(249, 115, 22, 0.12), transparent 55%),
+                  rgba(15, 23, 42, 0.92);
+      box-shadow: 0 18px 45px rgba(15, 23, 42, 0.9);
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 3px 9px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #e5e7eb;
+      margin-bottom: 10px;
+    }
+
+    .pill span.dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: #22c55e;
+      box-shadow: 0 0 0 5px rgba(34, 197, 94, 0.25);
+    }
+
+    .panel {
+      position: relative;
+      border-radius: 14px;
+      padding: 14px 16px;
+      margin-top: 10px;
+      background: rgba(15, 23, 42, 0.95);
+      border: 1px solid rgba(148, 163, 184, 0.4);
+    }
+
+    .panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+    .panel-title {
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: #9ca3af;
+    }
+    .panel-subtitle {
+      font-size: 12px;
+      color: #6b7280;
+    }
+
+    .button-row {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 8px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top left, rgba(148, 163, 184, 0.35), transparent 55%),
+                  rgba(17, 24, 39, 0.95);
+      border: 1px solid rgba(148, 163, 184, 0.9);
+      box-shadow: 0 10px 25px rgba(15, 23, 42, 0.8);
+    }
+
+    .btn {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 24px;
+      height: 24px;
+      border-radius: 999px;
+      background: #111827;
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      color: #e5e7eb;
+      font-size: 11px;
+      cursor: default;
+      box-shadow: inset 0 0 0 1px rgba(15, 23, 42, 0.9);
+    }
+    .btn span.icon {
+      font-size: 13px;
+    }
+    .btn-label {
+      padding: 0 6px;
+      font-size: 11px;
+      color: #e5e7eb;
+      white-space: nowrap;
+    }
+
+    .btn--edit    { border-color: rgba(59, 130, 246, 0.95); box-shadow: 0 0 0 1px rgba(37, 99, 235, 0.4); }
+    .btn--new     { border-color: rgba(16, 185, 129, 0.9); box-shadow: 0 0 0 1px rgba(5, 150, 105, 0.4); }
+    .btn--hide    { border-color: rgba(148, 163, 184, 0.9); }
+    .btn--delete  { border-color: rgba(239, 68, 68, 0.9); box-shadow: 0 0 0 1px rgba(220, 38, 38, 0.4); }
+    .btn--move    { border-color: rgba(249, 115, 22, 0.9); box-shadow: 0 0 0 1px rgba(234, 88, 12, 0.4); }
+    .btn--buffer  { border-style: dashed; border-color: rgba(251, 191, 36, 0.85); }
+    .btn--unknown { border-color: rgba(248, 250, 252, 0.45); border-style: dotted; }
+    .btn--link    { border-color: rgba(56, 189, 248, 0.9); box-shadow: 0 0 0 1px rgba(37, 99, 235, 0.35); }
+    .btn--module  { border-color: rgba(129, 140, 248, 0.9); box-shadow: 0 0 0 1px rgba(79, 70, 229, 0.35); }
+
+    .btn-disabled {
+      opacity: 0.35;
+      filter: grayscale(0.6);
+    }
+
+    .legend-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(0, 2fr);
+      gap: 14px 18px;
+      margin-top: 10px;
+      font-size: 12px;
+      color: #9ca3af;
+    }
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .legend-label {
+      font-weight: 500;
+      color: #e5e7eb;
+      font-size: 12px;
+    }
+    .legend-note {
+      font-size: 11px;
+      color: #9ca3af;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      padding: 2px 6px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.09em;
+      color: #9ca3af;
+    }
+
+    .demo-record {
+      margin-top: 10px;
+      padding: 10px 12px;
+      border-radius: 10px;
+      border: 1px dashed rgba(148, 163, 184, 0.7);
+      background: linear-gradient(90deg, rgba(15, 23, 42, 0.9), rgba(17, 24, 39, 0.9));
+      font-size: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: #e5e7eb;
+    }
+    .demo-record small {
+      color: #9ca3af;
+    }
+
+    .hint {
+      margin-top: 8px;
+      font-size: 11px;
+      color: #6b7280;
+    }
+
+    code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 11px;
+      background: rgba(15, 23, 42, 0.9);
+      padding: 1px 4px;
+      border-radius: 4px;
+      border: 1px solid rgba(55, 65, 81, 0.9);
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="section">
+      <div class="pill">
+        <span class="dot"></span>
+        <span>AirTable / TYPO3 — визуальная легенда кнопок</span>
+      </div>
+      <h1>Кнопки редактирования (Frontend Editing)</h1>
+      <p>
+        Это визуальная схема всех типов кнопок и панелей, которые реализованы в
+        <code>AdminPanelViewHelper</code>, <code>EditIconViewHelper</code> и связанных хуках.
+        Никакой логики здесь нет — только “легенда” интерфейса.
+      </p>
+    </div>
+
+    <!-- Админ‑панель сверху -->
+    <div class="section">
+      <h2>1. Верхняя панель администратора (AdminPanel)</h2>
+      <p>
+        Результат маркера <code>&lt;!--@@@ADMINPANEL@@@--&gt;</code>, который заменяется
+        <code>AdminPanelViewHelper::processOutput()</code> в хуке
+        <code>ContentPostProc::cleanUncachedContent()</code>.
+      </p>
+
+      <div class="panel">
+        <div class="panel-header">
+          <div>
+            <div class="panel-title">AdminPanel — верхняя полоса</div>
+            <div class="panel-subtitle">Слева логотип TYPO3, справа — набор служебных кнопок</div>
+          </div>
+          <span class="tag">View: AdminPanelViewHelper</span>
+        </div>
+
+        <div class="demo-record" style="margin-bottom: 10px;">
+          <div>
+            <strong>Слева</strong> — логотип TYPO3<br />
+            <small>Клик ведёт на <code>/</code> (главная)</small>
+          </div>
+          <div>
+            <strong>Справа</strong> — кнопки управления + информация о странице и пользователе<br />
+            <small>logout / backend / options / режим редактирования / кэш / pageId / avatar</small>
+          </div>
+        </div>
+
+        <div class="button-row" style="margin-top: 6px;">
+          <div class="btn btn--delete"><span class="icon">⎋</span></div>
+          <div class="btn-label">Выход (logout)</div>
+
+          <div class="btn btn--module"><span class="icon">⌂</span></div>
+          <div class="btn-label">Админка /typo3</div>
+
+          <div class="btn btn--hide"><span class="icon">⚙</span></div>
+          <div class="btn-label">Опции (подсветка вставок и пр.)</div>
+
+          <div class="btn btn--edit"><span class="icon">🎨</span></div>
+          <div class="btn-label">Цвет/оформление иконок</div>
+        </div>
+
+        <div class="button-row" style="margin-top: 10px;">
+          <div class="btn btn--hide"><span class="icon">👁</span></div>
+          <div class="btn-label">Показать скрытые записи</div>
+
+          <div class="btn btn--edit"><span class="icon">✎</span></div>
+          <div class="btn-label">Режим редактирования: Вкл</div>
+
+          <div class="btn btn-disabled"><span class="icon">✎</span></div>
+          <div class="btn-label">Режим редактирования: Выкл</div>
+        </div>
+
+        <div class="button-row" style="margin-top: 10px;">
+          <div class="btn btn--delete"><span class="icon">⟲</span></div>
+          <div class="btn-label">Сбросить все кэши</div>
+
+          <div class="btn btn--module"><span class="icon">⟲</span></div>
+          <div class="btn-label">Сбросить кэш текущей страницы</div>
+        </div>
+
+        <div class="demo-record">
+          <div>
+            <strong>Инфо по странице</strong><br />
+            <small>Например: <code>pageId: 123 (vP)</code> или <code>pageId: 123</code></small>
+          </div>
+          <div>
+            <strong>Пользователь</strong><br />
+            <small>Gravatar + имя/логин из BE</small>
+          </div>
+        </div>
+
+        <p class="hint">
+          Верхняя панель управляет флагами в <code>$BE_USER-&gt;uc</code>, в том числе
+          <code>phptemplate_mode_editing</code> (от которого зависит отображение кнопок на самом сайте).
+        </p>
+      </div>
+    </div>
+
+    <!-- Панель редактирования записи -->
+    <div class="section">
+      <h2>2. Панель редактирования записи (EditIcon — общий случай)</h2>
+      <p>
+        Это визуализация панели, которую генерирует <code>EditIconViewHelper::processOutput()</code>
+        для произвольной таблицы (по умолчанию: edit / new / hide / delete).
+      </p>
+
+      <div class="panel">
+        <div class="panel-header">
+          <div>
+            <div class="panel-title">Панель записи</div>
+            <div class="panel-subtitle">Например: произвольная модель с таблицей <code>tx_data</code></div>
+          </div>
+          <span class="tag">View: EditIconViewHelper</span>
+        </div>
+
+        <div class="demo-record">
+          <div>
+            <strong>tx_data: 1774</strong><br />
+            <small>Тип (RType), служебные поля, другая мета‑информация</small>
+          </div>
+          <div>
+            <small>Кнопки справа “накладываются” сверху содержимого, подстраивая цвет под таблицу.</small>
+          </div>
+        </div>
+
+        <div class="button-row" style="margin-top: 10px;">
+          <div class="btn btn--edit"><span class="icon">✎</span></div>
+          <div class="btn-label">Редактировать запись</div>
+
+          <div class="btn btn--new"><span class="icon">＋</span></div>
+          <div class="btn-label">Создать новую (на основе текущей)</div>
+
+          <div class="btn btn--hide"><span class="icon">☼</span></div>
+          <div class="btn-label">Вкл/выкл (disabled)</div>
+
+          <div class="btn btn--delete"><span class="icon">✖</span></div>
+          <div class="btn-label">Удалить / восстановить</div>
+        </div>
+
+        <div class="legend-grid">
+          <div class="legend-item">
+            <div class="btn btn--edit"><span class="icon">✎</span></div>
+            <div>
+              <div class="legend-label">Edit</div>
+              <div class="legend-note">Открывает <code>record_edit</code> для <code>table, uid</code>.</div>
+            </div>
+          </div>
+          <div class="legend-item">
+            <div class="btn btn--new"><span class="icon">＋</span></div>
+            <div>
+              <div class="legend-label">New</div>
+              <div class="legend-note">Создаёт новую запись, копируя/подставляя значения по умолчанию.</div>
+            </div>
+          </div>
+          <div class="legend-item">
+            <div class="btn btn--hide"><span class="icon">☼</span></div>
+            <div>
+              <div class="legend-label">Hide / Unhide</div>
+              <div class="legend-note">Тогглит поле <code>enablecolumns.disabled</code> через <code>tce_db</code>.</div>
+            </div>
+          </div>
+          <div class="legend-item">
+            <div class="btn btn--delete"><span class="icon">✖</span></div>
+            <div>
+              <div class="legend-label">Delete / Undelete</div>
+              <div class="legend-note">Посылает команду <code>cmd[table][uid][delete|undelete]</code>.</div>
+            </div>
+          </div>
+        </div>
+
+        <p class="hint">
+          Цвет рамки панели меняется в зависимости от таблицы: <code>pages</code>, <code>tt_content</code>,
+          <code>tx_data</code> и т.д. (см. свитч по <code>$this-&gt;table</code> в <code>panel()</code>).
+        </p>
+      </div>
+    </div>
+
+    <!-- Особый случай: tt_content -->
+    <div class="section">
+      <h2>3. Специальные панели для <code>tt_content</code></h2>
+      <p>
+        Для элементов содержимого есть несколько “типов панели”: новая запись, редактирование, режим перемещения.
+        Это влияет на состав кнопок и подсказок.
+      </p>
+
+      <h3>3.1. Панель <code>editRecord_tt_content</code></h3>
+      <div class="panel">
+        <div class="panel-header">
+          <div>
+            <div class="panel-title">Редактирование элемента содержимого</div>
+            <div class="panel-subtitle"><code>tt_content: 3090 (CType)</code> — стандартный режим</div>
+          </div>
+          <span class="tag">Type: editRecord_tt_content</span>
+        </div>
+
+        <div class="button-row">
+          <div class="btn btn--edit"><span class="icon">✎</span></div>
+          <div class="btn-label">Редактировать элемент</div>
+
+          <div class="btn btn--new"><span class="icon">＋</span></div>
+          <div class="btn-label">Создать новый после текущего</div>
+
+          <div class="btn btn--hide"><span class="icon">☼</span></div>
+          <div class="btn-label">Скрыть/показать элемент</div>
+
+          <div class="btn btn--delete"><span class="icon">✖</span></div>
+          <div class="btn-label">Удалить/восстановить</div>
+
+          <div class="btn btn--move"><span class="icon">⇕</span></div>
+          <div class="btn-label">Режим перемещения</div>
+        </div>
+      </div>
+
+      <h3>3.2. Панель <code>newRecord_tt_content</code></h3>
+      <div class="panel">
+        <div class="panel-header">
+          <div>
+            <div class="panel-title">Новая запись (placeholder)</div>
+            <div class="panel-subtitle">Панель “вставить новый элемент сюда”</div>
+          </div>
+          <span class="tag">Type: newRecord_tt_content</span>
+        </div>
+
+        <div class="button-row">
+          <div class="btn btn--new"><span class="icon">＋</span></div>
+          <div class="btn-label">Создать элемент с предзаполненными полями</div>
+        </div>
+
+        <p class="hint">
+          Использует <code>defaultFieldsForNewRecord</code> (pid, colPos, grid‑контейнер и др.) для вызова
+          мастера <code>new_content_element</code> с нужными параметрами.
+        </p>
+      </div>
+
+      <h3>3.3. Панель <code>moveRecord_tt_content</code></h3>
+      <div class="panel">
+        <div class="panel-header">
+          <div>
+            <div class="panel-title">Режим перемещения элемента</div>
+            <div class="panel-subtitle">Выбор целевой позиции (колонка / grid‑контейнер / foreign)</div>
+          </div>
+          <span class="tag">Type: moveRecord_tt_content</span>
+        </div>
+
+        <div class="button-row">
+          <div class="btn btn--move"><span class="icon">⇪</span></div>
+          <div class="btn-label">Переместить сюда</div>
+        </div>
+
+        <p class="hint">
+          Информация о переносе хранится в <code>$BE_USER-&gt;uc['isMoveRecord_tt_content_varible']</code>.
+          Завершение выполняет команду <code>move</code> через <code>tce_db</code>.
+        </p>
+      </div>
+    </div>
+
+    <!-- Прочие типы панелей -->
+    <div class="section">
+      <h2>4. Другие режимы панелей</h2>
+
+      <div class="panel">
+        <div class="panel-header">
+          <div>
+            <div class="panel-title">Специальные типы</div>
+            <div class="panel-subtitle">Link, переход в модуль, “только новая запись”, неизвестная запись</div>
+          </div>
+          <span class="tag">panel_elements(..., $type)</span>
+        </div>
+
+        <div class="legend-grid">
+          <div class="legend-item">
+            <div class="btn btn--link"><span class="icon">⤴</span></div>
+            <div>
+              <div class="legend-label">link</div>
+              <div class="legend-note">Произвольная ссылка/действие внутри popup (JS‑событие).</div>
+            </div>
+          </div>
+
+          <div class="legend-item">
+            <div class="btn btn--module"><span class="icon">▤</span></div>
+            <div>
+              <div class="legend-label">goToListModule</div>
+              <div class="legend-note">Открывает модуль <code>web_list</code> для таблицы/страницы.</div>
+            </div>
+          </div>
+
+          <div class="legend-item">
+            <div class="btn btn--new"><span class="icon">＋</span></div>
+            <div>
+              <div class="legend-label">onlyNewRecord</div>
+              <div class="legend-note">Только кнопка “создать новую запись”, без остальных действий.</div>
+            </div>
+          </div>
+
+          <div class="legend-item">
+            <div class="btn btn--unknown"><span class="icon">?</span></div>
+            <div>
+              <div class="legend-label">unknown</div>
+              <div class="legend-note">Таблица/запись не найдена или отсутствует в TCA.</div>
+            </div>
+          </div>
+
+          <div class="legend-item">
+            <div class="btn btn--buffer"><span class="icon">⧉</span></div>
+            <div>
+              <div class="legend-label">buffer (copy/cut)</div>
+              <div class="legend-note">Черновая идея: буфер операций (копировать / вырезать).</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Завершение -->
+    <div class="section">
+      <h2>5. Как использовать эту схему</h2>
+      <p>
+        Этот файл не подключён к TYPO3 и ничего не знает о реальных путях/BE‑модулях — он нужен как
+        “визуальная шпаргалка” для восстановления логики, если проект выносится в отдельное
+        приложение или переписывается UI.
+      </p>
+      <p>
+        При переносе в самостоятельный проект можно:
+      </p>
+      <ul style="margin: 6px 0 0 18px; font-size: 13px; color: #9ca3af;">
+        <li>сохранить идею маркеров <code>&lt;!--@@@...@@@--&gt;</code> в HTML,</li>
+        <li>переписать post‑processor (middleware), который будет их заменять,</li>
+        <li>перенастроить целевые URL/действия кнопок на новый backend/API.</li>
+      </ul>
+    </div>
+  </div>
+</body>
+</html>
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>BUTTON.NEW — панели и кнопки (современный стиль)</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 20px;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #111827;
+      color: #e5e7eb;
+    }
+    h1, h2, h3 { margin: 0 0 12px; font-weight: 600; color: #f9fafb; }
+    h1 { font-size: 26px; }
+    h2 { font-size: 20px; margin-top: 28px; }
+    h3 { font-size: 16px; margin-top: 18px; }
+    p { margin: 4px 0 10px; color: #9ca3af; font-size: 14px; }
+    code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 12px;
+      background: rgba(15, 23, 42, 0.9);
+      padding: 1px 6px;
+      border-radius: 6px;
+      border: 1px solid rgba(55, 65, 81, 0.9);
+      color: #e5e7eb;
+    }
+
+    .page { max-width: 1200px; margin: 0 auto; }
+    .section {
+      margin-bottom: 32px;
+      padding: 16px 18px;
+      border-radius: 14px;
+      border: 1px solid rgba(148, 163, 184, 0.3);
+      background:
+        radial-gradient(circle at top left, rgba(56, 189, 248, 0.09), transparent 55%),
+        radial-gradient(circle at bottom right, rgba(249, 115, 22, 0.12), transparent 55%),
+        rgba(15, 23, 42, 0.92);
+      box-shadow: 0 18px 45px rgba(15, 23, 42, 0.9);
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 3px 10px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #e5e7eb;
+      margin-bottom: 10px;
+    }
+    .pill .dot {
+      width: 8px; height: 8px; border-radius: 999px;
+      background: #22c55e;
+      box-shadow: 0 0 0 5px rgba(34, 197, 94, 0.25);
+    }
+
+    .panel {
+      position: relative;
+      border-radius: 14px;
+      padding: 14px 16px;
+      margin-top: 10px;
+      background: rgba(15, 23, 42, 0.95);
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      overflow: hidden;
+    }
+    .panel::before {
+      content: "";
+      position: absolute;
+      inset: -2px;
+      background: radial-gradient(circle at 20% 10%, rgba(56, 189, 248, 0.18), transparent 40%),
+                  radial-gradient(circle at 80% 90%, rgba(249, 115, 22, 0.18), transparent 40%);
+      pointer-events: none;
+      opacity: 0.6;
+    }
+    .panel > * { position: relative; }
+
+    .panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+    .panel-title {
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: #9ca3af;
+    }
+    .panel-subtitle { font-size: 12px; color: #6b7280; margin-top: 2px; }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.45);
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.09em;
+      color: #9ca3af;
+      white-space: nowrap;
+    }
+
+    .button-row {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 8px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top left, rgba(148, 163, 184, 0.35), transparent 55%),
+                  rgba(17, 24, 39, 0.95);
+      border: 1px solid rgba(148, 163, 184, 0.9);
+      box-shadow: 0 10px 25px rgba(15, 23, 42, 0.8);
+    }
+    .btn {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 26px;
+      height: 26px;
+      border-radius: 999px;
+      background: #111827;
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      color: #e5e7eb;
+      font-size: 12px;
+      cursor: default;
+      box-shadow: inset 0 0 0 1px rgba(15, 23, 42, 0.9);
+      user-select: none;
+    }
+    .btn .icon { font-size: 14px; line-height: 1; }
+    .btn:hover { filter: brightness(1.08); }
+
+    .btn--edit    { border-color: rgba(59, 130, 246, 0.95); box-shadow: 0 0 0 1px rgba(37, 99, 235, 0.4), inset 0 0 0 1px rgba(15, 23, 42, 0.9); }
+    .btn--new     { border-color: rgba(16, 185, 129, 0.9); box-shadow: 0 0 0 1px rgba(5, 150, 105, 0.4), inset 0 0 0 1px rgba(15, 23, 42, 0.9); }
+    .btn--hide    { border-color: rgba(148, 163, 184, 0.9); }
+    .btn--delete  { border-color: rgba(239, 68, 68, 0.9); box-shadow: 0 0 0 1px rgba(220, 38, 38, 0.4), inset 0 0 0 1px rgba(15, 23, 42, 0.9); }
+    .btn--move    { border-color: rgba(249, 115, 22, 0.9); box-shadow: 0 0 0 1px rgba(234, 88, 12, 0.4), inset 0 0 0 1px rgba(15, 23, 42, 0.9); }
+    .btn--cache   { border-color: rgba(168, 85, 247, 0.9); box-shadow: 0 0 0 1px rgba(147, 51, 234, 0.35), inset 0 0 0 1px rgba(15, 23, 42, 0.9); }
+    .btn--options { border-color: rgba(56, 189, 248, 0.9); box-shadow: 0 0 0 1px rgba(14, 165, 233, 0.35), inset 0 0 0 1px rgba(15, 23, 42, 0.9); }
+
+    /* Editing toggle (requested: ON blue, OFF green) */
+    .btn--editing-on {
+      border-color: rgba(59, 130, 246, 0.95) !important;
+      box-shadow:
+        0 0 0 1px rgba(37, 99, 235, 0.45),
+        inset 0 0 0 1px rgba(15, 23, 42, 0.9) !important;
+    }
+    .btn--editing-off {
+      border-color: rgba(34, 197, 94, 0.95) !important;
+      box-shadow:
+        0 0 0 1px rgba(22, 163, 74, 0.45),
+        inset 0 0 0 1px rgba(15, 23, 42, 0.9) !important;
+    }
+
+    .btn-label {
+      padding: 0 6px;
+      font-size: 12px;
+      color: #e5e7eb;
+      white-space: nowrap;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 10px;
+    }
+    @media (max-width: 900px) { .grid { grid-template-columns: 1fr; } }
+
+    .card {
+      border-radius: 14px;
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      background: rgba(17, 24, 39, 0.65);
+      padding: 14px 14px 16px;
+      box-shadow: inset 0 0 0 1px rgba(15, 23, 42, 0.75);
+    }
+    .card h3 { margin-bottom: 8px; }
+    .muted { color: #9ca3af; font-size: 12px; }
+
+    .fake-content {
+      margin-top: 10px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px dashed rgba(148, 163, 184, 0.5);
+      background: linear-gradient(90deg, rgba(15, 23, 42, 0.92), rgba(17, 24, 39, 0.92));
+      font-size: 12px;
+      color: #e5e7eb;
+    }
+
+    /* Hover dropdown demo */
+    .dropdown {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .dropdown:hover .dropdown-menu { opacity: 1; transform: translateY(0); pointer-events: auto; }
+    .dropdown-menu {
+      position: absolute;
+      top: 34px;
+      right: 0;
+      width: 320px;
+      border-radius: 14px;
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      background: rgba(15, 23, 42, 0.97);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
+      padding: 10px;
+      opacity: 0;
+      transform: translateY(-6px);
+      pointer-events: none;
+      transition: 140ms ease;
+      z-index: 10;
+    }
+    .menu-group {
+      padding: 8px 8px;
+      border-radius: 12px;
+      border: 1px solid rgba(148, 163, 184, 0.25);
+      background: rgba(17, 24, 39, 0.65);
+      margin-bottom: 8px;
+    }
+    .menu-group-title {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: #9ca3af;
+      margin-bottom: 8px;
+    }
+    .menu-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 7px 8px;
+      border-radius: 10px;
+      border: 1px solid rgba(148, 163, 184, 0.22);
+      background: rgba(15, 23, 42, 0.75);
+      margin-bottom: 6px;
+    }
+    .menu-item:last-child { margin-bottom: 0; }
+    .menu-item .name { font-size: 12px; color: #e5e7eb; }
+    .menu-item .count { font-size: 12px; color: #9ca3af; }
+
+    /* Popup demo */
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(3, 7, 18, 0.75);
+      backdrop-filter: blur(6px);
+      display: none;
+      z-index: 100;
+    }
+    .overlay.is-open { display: block; }
+    .popup {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: min(980px, calc(100vw - 32px));
+      height: min(640px, calc(100vh - 32px));
+      border-radius: 16px;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      background: rgba(15, 23, 42, 0.98);
+      box-shadow: 0 35px 90px rgba(0,0,0,0.55);
+      overflow: hidden;
+    }
+    .popup-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 12px;
+      border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+      background: radial-gradient(circle at 20% 10%, rgba(56, 189, 248, 0.18), transparent 45%),
+                  rgba(17, 24, 39, 0.85);
+    }
+    .popup-title { font-size: 12px; color: #e5e7eb; letter-spacing: 0.08em; text-transform: uppercase; }
+    .popup-body {
+      padding: 16px;
+      font-size: 13px;
+      color: #cbd5e1;
+      line-height: 1.45;
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="section">
+      <div class="pill"><span class="dot"></span><span>BUTTON.NEW — современная отрисовка</span></div>
+      <h1>Панели и кнопки “как в AirTable”, но в стиле `BUTTON.html`</h1>
+      <p>
+        Это отдельная версия “легенды”, стилизованная как твой <code>BUTTON.html</code>.
+        Здесь показаны: верхняя панель, hover‑меню, clear‑cache stack, popup/iframe‑идея,
+        и панели EditIcon для разных режимов.
+      </p>
+    </div>
+
+    <div class="section">
+      <h2>1) Верхняя панель (AdminPanel) — современный стиль</h2>
+      <div class="panel">
+        <div class="panel-header">
+          <div>
+            <div class="panel-title">AdminPanel</div>
+            <div class="panel-subtitle">logout / backend / options / editing toggle / caches / pageId / user</div>
+          </div>
+          <span class="tag">Legend UI</span>
+        </div>
+
+        <p class="muted" style="margin: 0 0 10px;">
+          Вариант A — текущий (как было), Вариант B — новый (по твоему списку групп).
+        </p>
+
+        <div class="muted" style="margin: 10px 0 6px;">
+          <span class="tag">Variant A (старый)</span>
+        </div>
+
+        <div class="button-row" style="width: 100%; justify-content: space-between; border-radius: 16px;">
+          <div style="display:inline-flex; align-items:center; gap:10px;">
+            <div class="btn btn--options" title="TYPO3">
+              <span class="icon">T3</span>
+            </div>
+            <div class="btn-label" style="color:#9ca3af;">AdminPanel</div>
+          </div>
+
+          <div style="display:inline-flex; align-items:center; gap:10px; flex-wrap: wrap; justify-content: flex-end;">
+            <div class="button-row">
+              <div class="btn btn--delete"><span class="icon">⎋</span></div>
+              <div class="btn-label">Выход</div>
+            </div>
+
+            <div class="button-row">
+              <div class="btn btn--options"><span class="icon">⌂</span></div>
+              <div class="btn-label">Админка</div>
+            </div>
+
+            <div class="dropdown">
+              <div class="button-row">
+                <div class="btn btn--options"><span class="icon">▾</span></div>
+                <div class="btn-label">Материалы</div>
+              </div>
+              <div class="dropdown-menu">
+                <div class="menu-group">
+                  <div class="menu-group-title">Группа материалов</div>
+                  <div class="menu-item">
+                    <div class="name">Новость</div>
+                    <div style="display:flex; align-items:center; gap:8px;">
+                      <div class="count">128</div>
+                      <div class="btn btn--new" title="Создать"><span class="icon">＋</span></div>
+                    </div>
+                  </div>
+                  <div class="menu-item">
+                    <div class="name">Статья</div>
+                    <div style="display:flex; align-items:center; gap:8px;">
+                      <div class="count">54</div>
+                      <div class="btn btn--new" title="Создать"><span class="icon">＋</span></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="menu-group" style="margin-bottom:0;">
+                  <div class="menu-group-title">Итого</div>
+                  <div class="menu-item">
+                    <div class="name">Всего</div>
+                    <div class="count">182</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="button-row">
+              <div class="btn btn--options"><span class="icon">⚙</span></div>
+              <div class="btn-label">Опции</div>
+            </div>
+
+            <div class="button-row">
+              <div class="btn btn--edit"><span class="icon">✎</span></div>
+              <div class="btn-label">Editing: ON</div>
+            </div>
+
+            <div class="button-row">
+              <div class="btn btn--cache"><span class="icon">⟲</span></div>
+              <div class="btn-label">Кэши</div>
+            </div>
+
+            <div class="button-row">
+              <div class="btn btn--edit"><span class="icon">#</span></div>
+              <div class="btn-label">pageId: 123</div>
+            </div>
+
+            <div class="button-row">
+              <div class="btn btn--options"><span class="icon">👤</span></div>
+              <div class="btn-label">Ivan (admin)</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="muted" style="margin: 14px 0 6px;">
+          <span class="tag">Variant B (новый)</span>
+        </div>
+
+        <div class="button-row" style="width: 100%; justify-content: space-between; border-radius: 16px;">
+          <!-- Left: site logo -->
+          <div style="display:inline-flex; align-items:center; gap:10px;">
+            <div class="btn btn--options" title="Логотип сайта">
+              <span class="icon">⌁</span>
+            </div>
+            <div class="btn-label" style="color:#9ca3af;">Logo</div>
+          </div>
+
+          <!-- Right: groups in the requested order -->
+          <div style="display:inline-flex; align-items:center; gap:10px; flex-wrap: wrap; justify-content: flex-end;">
+            <!-- Group: User -->
+            <div class="button-row">
+              <div class="btn btn--options" title="Аватар (круг)"><span class="icon">👤</span></div>
+              <div class="btn-label">Ivan</div>
+            </div>
+
+            <!-- Group: Dev info -->
+            <div class="button-row">
+              <div class="btn btn--edit" title="Информация от программиста"><span class="icon">#</span></div>
+              <div class="btn-label">pageId: 123</div>
+            </div>
+
+            <!-- Group: Cache -->
+            <div class="button-row">
+              <div class="btn btn--cache" title="Сбросить кэш страницы"><span class="icon">⟲</span></div>
+              <div class="btn-label">Сбросить кэш</div>
+              <div class="btn btn--delete" title="Сбросить весь кэш (корзина)"><span class="icon">🗑</span></div>
+            </div>
+
+            <!-- Group: Editing -->
+            <div class="button-row">
+              <div class="btn btn--editing-on" title="Редактирование: Вкл"><span class="icon">Вкл</span></div>
+              <div class="btn btn--editing-off" title="Редактирование: Выкл"><span class="icon">Выкл</span></div>
+            </div>
+
+            <!-- Group: Color / Settings -->
+            <div class="button-row">
+              <div class="btn btn--options" title="Смена цвета кнопок"><span class="icon">🎨</span></div>
+              <div class="btn-label">Цвет</div>
+              <div class="btn btn--options" title="Настройки"><span class="icon">⚙</span></div>
+              <div class="btn-label">Настройки</div>
+            </div>
+
+            <!-- Group: Backend -->
+            <div class="button-row">
+              <div class="btn btn--options" title="Админка"><span class="icon">⌂</span></div>
+              <div class="btn-label">Админка</div>
+            </div>
+
+            <!-- Group: Logout -->
+            <div class="button-row">
+              <div class="btn btn--delete" title="Выход"><span class="icon">⎋</span></div>
+              <div class="btn-label">Выход</div>
+            </div>
+          </div>
+        </div>
+
+        <p class="muted" style="margin-top:10px;">
+          Вариант B: логотип слева; справа группы user → dev info → cache → editing → color/settings → backend → logout.
+        </p>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>2) Popup/iframe‑идея (как `adminPanelPopup`)</h2>
+      <div class="panel">
+        <div class="panel-header">
+          <div>
+            <div class="panel-title">Popup container</div>
+            <div class="panel-subtitle">здесь в оригинале открывается `record_edit` / `new_content_element`</div>
+          </div>
+          <span class="tag">Demo</span>
+        </div>
+
+        <div class="button-row">
+          <div class="btn btn--edit" id="openPopupBtn"><span class="icon">▣</span></div>
+          <div class="btn-label">Открыть popup</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>3) Панели EditIcon (современный стиль)</h2>
+      <div class="grid">
+        <div class="card">
+          <h3>EditIcon — обычная запись</h3>
+          <div class="button-row">
+            <div class="btn btn--edit"><span class="icon">✎</span></div><div class="btn-label">Edit</div>
+            <div class="btn btn--new"><span class="icon">＋</span></div><div class="btn-label">New</div>
+            <div class="btn btn--hide"><span class="icon">☼</span></div><div class="btn-label">Hide</div>
+            <div class="btn btn--delete"><span class="icon">✖</span></div><div class="btn-label">Delete</div>
+          </div>
+          <div class="fake-content">
+            Пример: <code>tx_data: 1774</code> (панель рисуется рядом с записью; в оригинале при hover появляются подсказки).
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>EditIcon — `tt_content` (editRecord_tt_content)</h3>
+          <div class="button-row">
+            <div class="btn btn--edit"><span class="icon">✎</span></div><div class="btn-label">Edit</div>
+            <div class="btn btn--new"><span class="icon">＋</span></div><div class="btn-label">New after</div>
+            <div class="btn btn--hide"><span class="icon">☼</span></div><div class="btn-label">Hide</div>
+            <div class="btn btn--delete"><span class="icon">✖</span></div><div class="btn-label">Delete</div>
+            <div class="btn btn--move"><span class="icon">⇕</span></div><div class="btn-label">Move</div>
+          </div>
+          <div class="fake-content">
+            Пример: <code>tt_content: 3090 | CType: text</code> — плюс отдельная логика “перемещения между колонками”.
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>EditIcon — `newRecord_tt_content` (placeholder)</h3>
+          <div class="button-row">
+            <div class="btn btn--new"><span class="icon">＋</span></div><div class="btn-label">Create here</div>
+          </div>
+          <div class="fake-content">
+            В оригинале такая панель получает <code>defaultFieldsForNewRecord</code> (pid/colPos/grid/foreign_*) и вызывает мастер создания.
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>EditIcon — `moveRecord_tt_content` (apply)</h3>
+          <div class="button-row">
+            <div class="btn btn--move"><span class="icon">⇪</span></div><div class="btn-label">Move сюда</div>
+          </div>
+          <div class="fake-content">
+            Это “целевая” кнопка в режиме перемещения: отправляет команду <code>move</code> и выставляет поля (pid/colPos/grid/foreign_*).
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>4) Clear-cache stack (две кнопки в одном месте)</h2>
+      <div class="panel">
+        <div class="panel-header">
+          <div>
+            <div class="panel-title">Cache actions</div>
+            <div class="panel-subtitle">В оригинале это `tagAdminPanel_buttonContainer_wrapClearCache`</div>
+          </div>
+          <span class="tag">Hover</span>
+        </div>
+
+        <div class="dropdown">
+          <div class="button-row">
+            <div class="btn btn--cache"><span class="icon">⟲</span></div>
+            <div class="btn-label">Сбросить кэш</div>
+          </div>
+          <div class="dropdown-menu" style="width: 360px;">
+            <div class="menu-group" style="margin-bottom:0;">
+              <div class="menu-group-title">Действия</div>
+              <div class="menu-item">
+                <div class="name">Сбросить все кэши</div>
+                <div class="btn btn--cache"><span class="icon">⟲</span></div>
+              </div>
+              <div class="menu-item">
+                <div class="name">Сбросить кэш текущей страницы</div>
+                <div class="btn btn--cache"><span class="icon">⟲</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <p class="muted" style="margin-top:10px;">
+          В оригинале второй пункт показывается в “стеке” при hover над контейнером.
+          Здесь то же поведение показано через dropdown.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="overlay" id="overlay">
+    <div class="popup" role="dialog" aria-modal="true" aria-label="Popup">
+      <div class="popup-header">
+        <div class="popup-title">Popup / iframe demo</div>
+        <div class="button-row">
+          <div class="btn btn--delete" id="closePopupBtn"><span class="icon">✖</span></div>
+          <div class="btn-label">Закрыть</div>
+        </div>
+      </div>
+      <div class="popup-body">
+        Здесь в реальном проекте встраивается форма TYPO3 Backend (record_edit/new_content_element) и после закрытия выполняется AJAX‑обновление части страницы.
+        <br><br>
+        В твоём коде это реализовано функциями <code>adminPanelPopup(...)</code> и <code>adminPanelPopupClose()</code>.
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      const overlay = document.getElementById('overlay');
+      const openBtn = document.getElementById('openPopupBtn');
+      const closeBtn = document.getElementById('closePopupBtn');
+
+      function open() { overlay.classList.add('is-open'); }
+      function close() { overlay.classList.remove('is-open'); }
+
+      openBtn.addEventListener('click', open);
+      closeBtn.addEventListener('click', close);
+      overlay.addEventListener('click', (e) => { if (e.target === overlay) close(); });
+      window.addEventListener('keydown', (e) => { if (e.key === 'Escape') close(); });
+    })();
+  </script>
+</body>
+</html>
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>BUTTON.NEW — панели и кнопки (современный стиль)</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 20px;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #111827;
+      color: #e5e7eb;
+    }
+    h1, h2, h3 { margin: 0 0 12px; font-weight: 600; color: #f9fafb; }
+    h1 { font-size: 26px; }
+    h2 { font-size: 20px; margin-top: 28px; }
+    h3 { font-size: 16px; margin-top: 18px; }
+    p { margin: 4px 0 10px; color: #9ca3af; font-size: 14px; }
+    code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 12px;
+      background: rgba(15, 23, 42, 0.9);
+      padding: 1px 6px;
+      border-radius: 6px;
+      border: 1px solid rgba(55, 65, 81, 0.9);
+      color: #e5e7eb;
+    }
+
+    .page { max-width: 1200px; margin: 0 auto; }
+    .section {
+      margin-bottom: 32px;
+      padding: 16px 18px;
+      border-radius: 14px;
+      border: 1px solid rgba(148, 163, 184, 0.3);
+      background:
+        radial-gradient(circle at top left, rgba(56, 189, 248, 0.09), transparent 55%),
+        radial-gradient(circle at bottom right, rgba(249, 115, 22, 0.12), transparent 55%),
+        rgba(15, 23, 42, 0.92);
+      box-shadow: 0 18px 45px rgba(15, 23, 42, 0.9);
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 3px 10px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #e5e7eb;
+      margin-bottom: 10px;
+    }
+    .pill .dot {
+      width: 8px; height: 8px; border-radius: 999px;
+      background: #22c55e;
+      box-shadow: 0 0 0 5px rgba(34, 197, 94, 0.25);
+    }
+
+    .panel {
+      position: relative;
+      border-radius: 14px;
+      padding: 14px 16px;
+      margin-top: 10px;
+      background: rgba(15, 23, 42, 0.95);
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      /* важно для dropdown “Материалы”, иначе меню обрезается */
+      overflow: visible;
+    }
+    .panel::before {
+      content: "";
+      position: absolute;
+      inset: -2px;
+      background: radial-gradient(circle at 20% 10%, rgba(56, 189, 248, 0.18), transparent 40%),
+                  radial-gradient(circle at 80% 90%, rgba(249, 115, 22, 0.18), transparent 40%);
+      pointer-events: none;
+      opacity: 0.6;
+    }
+    .panel > * { position: relative; }
+
+    .panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+    .panel-title {
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: #9ca3af;
+    }
+    .panel-subtitle { font-size: 12px; color: #6b7280; margin-top: 2px; }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.45);
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.09em;
+      color: #9ca3af;
+      white-space: nowrap;
+    }
+
+    .button-row {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 8px;
+      border-radius: 10px;
+      background: radial-gradient(circle at top left, rgba(148, 163, 184, 0.35), transparent 55%),
+                  rgba(17, 24, 39, 0.95);
+      border: 1px solid rgba(148, 163, 184, 0.9);
+      box-shadow: 0 10px 25px rgba(15, 23, 42, 0.8);
+    }
+    /* Hover-подсветка только для кликабельных плашек (ссылок), а не для всей панели */
+    a.button-row:hover {
+      border-color: rgba(248, 250, 252, 0.95);
+      box-shadow: 0 14px 32px rgba(15, 23, 42, 0.95);
+      background: radial-gradient(circle at top left, rgba(248, 250, 252, 0.55), transparent 55%),
+                  rgba(17, 24, 39, 0.98);
+    }
+    /* Ссылки с тем же видом, что и «кнопки» */
+    a.button-row,
+    a.btn {
+      text-decoration: none;
+      color: inherit;
+      cursor: pointer;
+    }
+    a.button-row:focus-visible,
+    a.btn:focus-visible {
+      outline: 2px solid rgba(96, 165, 250, 0.95);
+      outline-offset: 2px;
+    }
+
+    /* Логотип слева в панели — без «капсулы» button-row */
+    .admin-logo-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      text-decoration: none;
+      color: #64748b;
+      font-weight: 500;
+      font-size: 13px;
+      letter-spacing: 0.02em;
+      max-width: 180px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .admin-logo-link:hover {
+      opacity: 0.88;
+    }
+    .admin-logo-link .admin-logo-img {
+      display: block;
+      height: 32px;
+      width: auto;
+      max-width: 200px;
+      object-fit: contain;
+    }
+
+    /* Плашка записи: ссылка без второй рамки внутри button-row */
+    .edit-tt-chip-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      text-decoration: none;
+      color: inherit;
+    }
+    .edit-tt-chip-link:focus-visible {
+      outline: 2px solid rgba(96, 165, 250, 0.95);
+      outline-offset: 2px;
+      border-radius: 6px;
+    }
+
+    .btn {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 26px;
+      height: 26px;
+      border-radius: 10px;
+      background: #111827;
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      color: #e5e7eb;
+      font-size: 12px;
+      cursor: pointer;
+      box-shadow: inset 0 0 0 1px rgba(15, 23, 42, 0.9);
+      user-select: none;
+    }
+    .btn .icon { font-size: 14px; line-height: 1; }
+    .btn:hover {
+      filter: brightness(1.08);
+      border-color: #f9fafb;
+      box-shadow:
+        0 0 0 1px rgba(248, 250, 252, 0.85),
+        inset 0 0 0 1px rgba(15, 23, 42, 0.9);
+    }
+
+    .btn--edit    { border-color: rgba(59, 130, 246, 0.95); box-shadow: 0 0 0 1px rgba(37, 99, 235, 0.4), inset 0 0 0 1px rgba(15, 23, 42, 0.9); }
+    .btn--new     { border-color: rgba(16, 185, 129, 0.9); box-shadow: 0 0 0 1px rgba(5, 150, 105, 0.4), inset 0 0 0 1px rgba(15, 23, 42, 0.9); }
+    .btn--hide    { border-color: rgba(148, 163, 184, 0.9); }
+    .btn--delete  { border-color: rgba(239, 68, 68, 0.9); box-shadow: 0 0 0 1px rgba(220, 38, 38, 0.4), inset 0 0 0 1px rgba(15, 23, 42, 0.9); }
+    .btn--move    { border-color: rgba(249, 115, 22, 0.9); box-shadow: 0 0 0 1px rgba(234, 88, 12, 0.4), inset 0 0 0 1px rgba(15, 23, 42, 0.9); }
+    .btn--cache   { border-color: rgba(168, 85, 247, 0.9); box-shadow: 0 0 0 1px rgba(147, 51, 234, 0.35), inset 0 0 0 1px rgba(15, 23, 42, 0.9); }
+    .btn--options { border-color: rgba(56, 189, 248, 0.9); box-shadow: 0 0 0 1px rgba(14, 165, 233, 0.35), inset 0 0 0 1px rgba(15, 23, 42, 0.9); }
+
+    /* Editing toggle (если нужно подсветить состояние) */
+    .btn--editing-on {
+      border-color: rgba(59, 130, 246, 0.95) !important;
+      box-shadow:
+        0 0 0 1px rgba(37, 99, 235, 0.45),
+        inset 0 0 0 1px rgba(15, 23, 42, 0.9) !important;
+    }
+    .btn--editing-off {
+      border-color: rgba(34, 197, 94, 0.95) !important;
+      box-shadow:
+        0 0 0 1px rgba(22, 163, 74, 0.45),
+        inset 0 0 0 1px rgba(15, 23, 42, 0.9) !important;
+    }
+
+    .btn-label {
+      padding: 0 6px;
+      font-size: 12px;
+      color: #e5e7eb;
+      white-space: nowrap;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 10px;
+    }
+    @media (max-width: 900px) { .grid { grid-template-columns: 1fr; } }
+
+    .card {
+      border-radius: 14px;
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      background: rgba(17, 24, 39, 0.65);
+      padding: 14px 14px 16px;
+      box-shadow: inset 0 0 0 1px rgba(15, 23, 42, 0.75);
+    }
+    .card h3 { margin-bottom: 8px; }
+    .muted { color: #9ca3af; font-size: 12px; }
+
+    .fake-content {
+      margin-top: 10px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px dashed rgba(148, 163, 184, 0.5);
+      background: linear-gradient(90deg, rgba(15, 23, 42, 0.92), rgba(17, 24, 39, 0.92));
+      font-size: 12px;
+      color: #e5e7eb;
+    }
+
+    /* EditIcon demo: показать иконки при наведении на блок (без резервирования ширины) */
+    .edit-tt-actions {
+      display: none;
+    }
+    .edit-tt-wrap:hover .edit-tt-actions {
+      display: inline-flex;
+    }
+
+    /* Hover dropdown demo */
+    .dropdown {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .dropdown:hover .dropdown-menu { opacity: 1; transform: translateY(0); pointer-events: auto; }
+    .dropdown-menu {
+      position: absolute;
+      top: 34px;
+      right: 0;
+      width: 320px;
+      border-radius: 14px;
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      background: rgba(15, 23, 42, 0.97);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
+      padding: 10px;
+      opacity: 0;
+      transform: translateY(-6px);
+      pointer-events: none;
+      transition: 140ms ease;
+      /* Поверх всех панелей/подсветок */
+      z-index: 60;
+    }
+    .menu-group {
+      padding: 8px 8px;
+      border-radius: 12px;
+      border: 1px solid rgba(148, 163, 184, 0.25);
+      background: rgba(17, 24, 39, 0.65);
+      margin-bottom: 8px;
+    }
+    .menu-group-title {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: #9ca3af;
+      margin-bottom: 8px;
+    }
+    .menu-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 7px 8px;
+      border-radius: 10px;
+      border: 1px solid rgba(148, 163, 184, 0.22);
+      background: rgba(15, 23, 42, 0.75);
+      margin-bottom: 6px;
+    }
+    .menu-item:last-child { margin-bottom: 0; }
+    .menu-item .name { font-size: 12px; color: #e5e7eb; }
+    .menu-item .count { font-size: 12px; color: #9ca3af; }
+
+    /* Popup demo */
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(3, 7, 18, 0.75);
+      backdrop-filter: blur(6px);
+      display: none;
+      z-index: 100;
+    }
+    .overlay.is-open { display: block; }
+    .popup {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: min(980px, calc(100vw - 32px));
+      height: min(640px, calc(100vh - 32px));
+      border-radius: 16px;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      background: rgba(15, 23, 42, 0.98);
+      box-shadow: 0 35px 90px rgba(0,0,0,0.55);
+      overflow: hidden;
+    }
+    .popup-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 12px;
+      border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+      background: radial-gradient(circle at 20% 10%, rgba(56, 189, 248, 0.18), transparent 45%),
+                  rgba(17, 24, 39, 0.85);
+    }
+    .popup-title { font-size: 12px; color: #e5e7eb; letter-spacing: 0.08em; text-transform: uppercase; }
+    .popup-body {
+      padding: 16px;
+      font-size: 13px;
+      color: #cbd5e1;
+      line-height: 1.45;
+    }
+
+    /* Accordion для AdminPanelTools */
+    .accordion {
+      border-radius: 12px;
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      background: rgba(15, 23, 42, 0.9);
+      overflow: hidden;
+      margin-top: 10px;
+      width: 100%;
+    }
+    .accordion-item + .accordion-item {
+      border-top: 1px solid rgba(55, 65, 81, 0.9);
+    }
+    .accordion-header {
+      width: 100%;
+      padding: 0;
+      background: transparent;
+      border: 0;
+      color: #e5e7eb;
+      font-size: 12px;
+      cursor: pointer;
+      text-align: left;
+    }
+    .accordion-header::after {
+      display: none;
+    }
+    .accordion-item.is-open .accordion-header::after {}
+    .accordion-body {
+      padding: 12px 14px 14px;
+      display: none;
+    }
+    .accordion-item.is-open .accordion-body {
+      display: block;
+    }
+
+    /* Текст под шапкой — без второй рамки/тени (шапка уже в «карточке», тело продолжает блок) */
+    .accordion-body .accordion-block {
+      border: none;
+      box-shadow: none;
+      border-radius: 0;
+      background: transparent;
+    }
+
+    .accordion-block {
+      border-radius: 14px;
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      background: rgba(15, 23, 42, 0.96);
+      padding: 0;
+      overflow: hidden;
+      box-shadow: 0 18px 45px rgba(15, 23, 42, 0.9);
+    }
+
+    .accordion-block-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 10px;
+      background: linear-gradient(90deg, rgba(56,189,248,0.24), rgba(129,140,248,0.24));
+      border-bottom: 1px solid rgba(148, 163, 184, 0.5);
+    }
+    .accordion-block-title {
+      font-size: 13px;
+      font-weight: 500;
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+    }
+    .accordion-block-subtitle {
+      font-size: 11px;
+      color: #e5e7eb;
+      opacity: 0.85;
+    }
+    .accordion-block-body {
+      padding: 12px 14px;
+      font-size: 13px;
+      color: #e5e7eb;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="section">
+      <div class="pill"><span class="dot"></span><span>PHPAirButton — гайд по кнопкам</span></div>
+      <h1>Кнопки и панели PHPAirButton</h1>
+    </div>
+
+    <div class="section">
+      <h2>1) Верхняя панель</h2>
+
+      <div class="card" style="margin-bottom: 12px;">
+        <h3 style="margin-top: 0; font-size: 14px;">PHP — fluent-интерфейс (спецификация)</h3>
+        <p class="muted" style="margin-bottom: 8px;">
+          Целевой способ вызова верхней панели из шаблона: цепочка настроек и <code>-&gt;render()</code>.
+          Здесь описан только API; реализация класса может быть добавлена отдельно.
+        </p>
+        <pre style="margin:0; padding:12px 14px; border-radius:10px; border:1px solid rgba(148,163,184,0.35); background:rgba(15,23,42,0.96); color:#e5e7eb; font-size:12px; line-height:1.45; overflow:auto;"><code>&lt;?php
+// после подключения вашего класса PHPAirButton:
+
+PhpAirButton::adminPanelCreate()
+    -&gt;brand('SPRAVKY.RU', '/')
+    -&gt;user($currentUserName ?? 'Editor')
+    -&gt;pageId((string)($currentPageId ?? 0))
+    -&gt;editing($isEditingOn ?? true)
+    -&gt;backend('/admin/')
+    -&gt;logout('/logout')
+    -&gt;render();
+?&gt;</code></pre>
+        <p class="muted" style="margin-top: 10px; margin-bottom: 0;">
+          Минимальный набор для работающей панели: <code>brand()</code>, <code>user()</code>, <code>pageId()</code>, <code>editing()</code>, <code>backend()</code>, <code>logout()</code>.
+          Опционально можно добавить: <code>clearCache()</code>, <code>colors()</code>, <code>settings()</code>,
+          <code>materialsRows([...])</code> и <code>materialsTotal(...)</code>. Полная таблица методов и структура параметров —
+          в разделе <code>7) PHPAirButton — верхняя панель</code> файла <code>BUTTON.md</code>.
+        </p>
+      </div>
+
+      <div class="panel">
+        <div class="button-row" style="width: 100%; justify-content: space-between; border-radius: 0; border:none; box-shadow:none;">
+          <!-- Left: логотип текстом -->
+          <a href="/" class="admin-logo-link" title="На главную сайта">
+            <span>SPRAVKY.RU</span>
+          </a>
+
+          <!-- Right: groups in the requested order -->
+          <div style="display:inline-flex; align-items:center; gap:10px; flex-wrap: wrap; justify-content: flex-end;">
+            <!-- Group: User -->
+            <a href="#admin-user" class="button-row" title="Профиль пользователя (пример ссылки)">
+              <span class="btn btn--options" aria-hidden="true"><span class="icon">👤</span></span>
+              <span class="btn-label">Ivan</span>
+            </a>
+
+            <!-- Group: Dev info -->
+            <a href="#admin-dev-info" class="button-row" title="Информация для разработчика (pageId и т.п.)">
+              <span class="btn btn--edit" aria-hidden="true"><span class="icon">#</span></span>
+              <span class="btn-label">pageId: 123</span>
+            </a>
+
+            <!-- Group: Editing -->
+            <a href="#toggle-editing" class="button-row" title="Переключить режим редактирования">
+              <span class="btn btn--editing-on" aria-hidden="true">
+                <span class="icon">✎</span>
+              </span>
+              <span class="btn-label">Editing: ON | OFF</span>
+            </a>
+
+            <!-- Group: Cache -->
+            <a href="#clear-page-cache" class="button-row" title="Сбросить кэш страницы (пример действия)">
+              <span class="btn btn--cache" aria-hidden="true"><span class="icon">⟲</span></span>
+              <span class="btn-label">Сбросить кэш</span>
+            </a>
+
+            <!-- Group: Materials (dropdown) — перед админкой; триггер не ссылка, чтобы не ломать hover -->
+            <div class="dropdown">
+              <div class="button-row" role="group" aria-label="Материалы">
+                <span class="btn btn--options" aria-hidden="true"><span class="icon">▾</span></span>
+                <span class="btn-label">Материалы</span>
+              </div>
+              <div class="dropdown-menu">
+                <div class="menu-group">
+                  <div class="menu-group-title">Группа материалов</div>
+                  <div class="menu-item">
+                    <a href="#list-news" class="name" style="text-decoration:none; color:inherit;">Новость</a>
+                    <div style="display:flex; align-items:center; gap:8px;">
+                      <span class="count">128</span>
+                      <a href="#new-news" class="btn btn--new" title="Создать запись «Новость»"><span class="icon">＋</span></a>
+                    </div>
+                  </div>
+                  <div class="menu-item">
+                    <a href="#list-article" class="name" style="text-decoration:none; color:inherit;">Статья</a>
+                    <div style="display:flex; align-items:center; gap:8px;">
+                      <span class="count">54</span>
+                      <a href="#new-article" class="btn btn--new" title="Создать запись «Статья»"><span class="icon">＋</span></a>
+                    </div>
+                  </div>
+                </div>
+                <div class="menu-group" style="margin-bottom:0;">
+                  <div class="menu-group-title">Итого</div>
+                  <div class="menu-item">
+                    <span class="name">Всего</span>
+                    <span class="count">182</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Group: Color / Settings -->
+            <div class="button-row">
+              <a href="#admin-button-colors" class="btn btn--options" title="Смена цвета кнопок админ-панели"><span class="icon">🎨</span></a>
+              <a href="#admin-settings" class="btn btn--options" title="Настройки расширения / панели"><span class="icon">⚙</span></a>
+            </div>
+
+            <!-- Group: Backend -->
+            <a href="/admin/" class="button-row" title="Панель управления / бэкенд">
+              <span class="btn btn--options" aria-hidden="true"><span class="icon">🏛</span></span>
+              <span class="btn-label">Админка</span>
+            </a>
+
+            <!-- Group: Logout -->
+            <a href="/logout" class="button-row" title="Выход из панели управления">
+              <span class="btn btn--delete" aria-hidden="true"><span class="icon">⎋</span></span>
+              <span class="btn-label">Выход</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>2) Popup / iframe</h2>
+      <div class="panel">
+        <div class="panel-header">
+          <div>
+            <div class="panel-title">Popup container</div>
+            <div class="panel-subtitle">форма редактирования или создания блока во всплывающем окне</div>
+          </div>
+          <span class="tag">Demo</span>
+        </div>
+
+        <a href="#popup-demo" class="button-row" id="openPopupBtn" title="Открыть всплывающее окно (в демо — без ухода со страницы)">
+          <span class="btn btn--edit" aria-hidden="true"><span class="icon">▣</span></span>
+          <span class="btn-label">Открыть popup</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>3) Панели EditIcon (современный стиль)</h2>
+      <div class="grid">
+        <div class="card">
+          <h3>EditIcon — существующий блок</h3>
+          <p class="muted">
+            Наведи курсор на плашку “Новость” (иконка + текст) — справа от неё появятся кнопки редактирования.
+          </p>
+
+          <p class="muted" style="margin-top: 6px;">
+            Точка входа: <code>PhpAirButton::editIcons()</code> (отдельно от верхней панели).
+            <code>existing($type, $id, $chipUrl, $editUrl)</code>: <code>$chipUrl</code> — ссылка плашки (иконка + «Новость №…»),
+            <code>$editUrl</code> — кнопка ✎. Дополнительно цепочкой:
+            <code>hideUrl($url)</code>, <code>deleteUrl($url)</code>, <code>createSiblingUrl($url)</code>,
+            <code>tooltip($text)</code> (и при необходимости статус записи отдельным методом билдера).
+          </p>
+          <pre style="margin:6px 0 0; padding:8px 10px; border-radius:8px; border:1px solid rgba(148,163,184,0.35); background:rgba(15,23,42,0.96); color:#e5e7eb; font-size:11px; line-height:1.4; overflow:auto;"><code>&lt;?php
+PhpAirButton::editIcons()
+    -&gt;existing('Новость', '1993', '#record-news-1993', '#edit-record-1993')
+    -&gt;hideUrl('#hide-record-1993')
+    -&gt;deleteUrl('#delete-record-1993')
+    -&gt;tooltip('Тип записи / заголовок элемента')
+    -&gt;render();
+?&gt;</code></pre>
+
+          <div class="edit-tt-wrap" style="margin-top:10px; position:relative;">
+            <!-- “Тело” элемента контента -->
+            <div class="fake-content edit-tt-target" style="margin-top:0; border-style:solid; border-width:1px; border-color:rgba(148,163,184,0.55); border-radius:10px;">
+              <strong>Текст новости №1993</strong><br />
+              Здесь какой‑то текст записи. Панель действий привязана к плашке “Новость №1993” ниже.
+            </div>
+
+            <!-- Плашка “Новость” + действия, которые показываются справа при наведении -->
+            <div style="margin-top:10px; display:inline-block;">
+              <div class="button-row" style="justify-content:flex-start;">
+                <a href="#record-news-1993" class="edit-tt-chip-link" title="Тип записи / заголовок элемента">
+                  <span class="btn btn--move" aria-hidden="true">
+                    <span class="icon">▤</span>
+                  </span>
+                  <span class="btn-label">Новость №1993</span>
+                </a>
+
+                <div class="edit-tt-actions" style="align-items:center; gap:6px; margin-left:8px;">
+                  <a href="#edit-record-1993" class="btn btn--edit" title="Редактировать запись"><span class="icon">✎</span></a>
+                  <a href="#hide-record-1993" class="btn btn--hide" title="Скрыть / показать"><span class="icon">☼</span></a>
+                  <a href="#delete-record-1993" class="btn btn--delete" title="Удалить / восстановить"><span class="icon">✖</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>EditIcon — новый блок (placeholder)</h3>
+          <a href="#new-tt-content-here" class="button-row" title="Создать контент в этой колонке">
+            <span class="btn btn--new" aria-hidden="true"><span class="icon">＋</span></span><span class="btn-label">Create here</span>
+          </a>
+          <div class="fake-content">
+            Панель получает параметры размещения и открывает мастер создания записи.
+          </div>
+
+          <p class="muted" style="margin-top: 6px;">
+            Точка входа: <code>PhpAirButton::newIcon()</code>.
+            <code>placeholder($type, $createUrl, ?$label)</code>: ссылка на создание и подпись на плашке (как «Create here»).
+            Дополнительно: <code>tooltip($text)</code> (атрибут <code>title</code>),
+            <code>icon($glyph)</code>, <code>disabled($on, $reason)</code>.
+          </p>
+          <pre style="margin:6px 0 0; padding:8px 10px; border-radius:8px; border:1px solid rgba(148,163,184,0.35); background:rgba(15,23,42,0.96); color:#e5e7eb; font-size:11px; line-height:1.4; overflow:auto;"><code>&lt;?php
+PhpAirButton::newIcon()
+    -&gt;placeholder('Новость', '#new-tt-content-here', 'Create here')
+    -&gt;tooltip('Создать контент в этой колонке')
+    -&gt;render();
+?&gt;</code></pre>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>4) Block + Alert (инфо‑вставки)</h2>
+      <div class="panel">
+        <div class="panel-header">
+          <div>
+            <div class="panel-title">Block + Alert</div>
+            <div class="panel-subtitle">современная версия твоих Block/block-*.css и blockAlert-*.css</div>
+          </div>
+          <span class="tag">Info blocks</span>
+        </div>
+
+        <div class="grid">
+          <div class="card">
+            <h3>Заголовок блока</h3>
+            <p class="muted">Это демонстрация <code>Block/block-*.css</code>: текстуры, скругления, типографика.</p>
+
+            <div style="margin-top:10px; border-radius:14px; border:1px solid rgba(148,163,184,0.5); overflow:hidden; background:rgba(15,23,42,0.96); box-shadow:0 18px 45px rgba(15,23,42,0.9);">
+              <div style="display:flex; align-items:center; gap:8px; padding:6px 10px; background:linear-gradient(90deg, rgba(56,189,248,0.24), rgba(129,140,248,0.24)); border-bottom:1px solid rgba(148,163,184,0.5);">
+                <div class="btn btn--options" style="min-width:22px; height:22px;">
+                  <span class="icon">i</span>
+                </div>
+                <div style="font-size:13px; font-weight:500;">Заголовок блока</div>
+              </div>
+              <div style="padding:12px 14px; font-size:13px; color:#e5e7eb; line-height:1.5;">
+                Это демонстрация <code>Block/block-*.css</code> в новом стиле: скругления, отдельная шапка,
+                слегка подсвеченный фон и более читаемый текст.
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3>Alert‑плашка</h3>
+            <p class="muted">Alert‑плашка в духе <code>blockAlert-*.css</code>.</p>
+
+            <div style="
+              margin-top:10px;
+              padding:8px 10px 8px 30px;
+              border-radius:12px;
+              background:linear-gradient(90deg, #facc15, #f97316);
+              color:#1f2937;
+              font-size:13px;
+              position:relative;
+              box-shadow:0 15px 35px rgba(0,0,0,0.45);
+            ">
+              <span style="
+                position:absolute;
+                left:10px;
+                top:50%;
+                transform:translateY(-50%);
+                font-size:14px;
+                font-weight:bold;
+              ">!</span>
+              Alert‑плашка (blockAlert): короткое важное сообщение для редактора.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>5) AdminPanelTools — нижняя панель заметок</h2>
+      <!-- Широкая панель заметок, во всю ширину сайта -->
+      <div class="panel" style="border-radius:0; margin-left:-2px; margin-right:-2px;">
+        <div class="panel-header">
+          <div>
+            <div class="panel-title">Project notes / AdminPanelTools</div>
+            <div class="panel-subtitle">широкая полоска снизу сайта с заметками, документацией и полезными ссылками</div>
+          </div>
+          <span class="tag">Notes / Docs</span>
+        </div>
+
+        <!-- Внутри панели — аккордионы с разделами заметок -->
+        <div class="accordion" data-adminpaneltools-accordion>
+          <div class="accordion-item is-open">
+            <button class="accordion-header" type="button">
+              <!-- клик по всей шапке блока -->
+              <div class="accordion-block">
+                <div class="accordion-block-header">
+                  <div class="btn btn--options" style="min-width:22px; height:22px;">
+                    <span class="icon">i</span>
+                  </div>
+                  <div class="accordion-block-title">
+                    <span>Общие заметки</span>
+                    <span class="accordion-block-subtitle">быстрые комментарии для редакторов и разработчиков</span>
+                  </div>
+                </div>
+              </div>
+            </button>
+            <div class="accordion-body">
+              <div class="accordion-block">
+                <div class="accordion-block-body">
+                  <strong>Как пользоваться этой панелью</strong><br />
+                  Здесь живут короткие пояснения по проекту, договорённости команды и важные напоминания.
+                  Панель “клеится” к низу сайта и видна на всех страницах только авторизованным пользователям.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <button class="accordion-header" type="button">
+              <div class="accordion-block">
+                <div class="accordion-block-header">
+                  <div class="btn btn--options" style="min-width:22px; height:22px;">
+                    <span class="icon">i</span>
+                  </div>
+                  <div class="accordion-block-title">
+                    <span>Struct / Buttons</span>
+                    <span class="accordion-block-subtitle">структура кнопок и что за что отвечает</span>
+                  </div>
+                </div>
+              </div>
+            </button>
+            <div class="accordion-body">
+              <div class="accordion-block">
+                <div class="accordion-block-body">
+                  <ul style="margin:0; padding-left:18px; font-size:12px; color:#cbd5e1; list-style:disc;">
+                  <li><strong>Верхняя панель</strong> — AdminPanel (user / dev info / editing / caches / materials / backend / logout).</li>
+                  <li><strong>Плашка “Новость №1993”</strong> — EditIcon для блока контента; кнопки редактирования при наведении.</li>
+                  <li><strong>Block + Alert</strong> — стили информеров и блоков из <code>Block/block-*.css</code> и <code>blockAlert-*.css</code>.</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <button class="accordion-header" type="button">
+              <div class="accordion-block">
+                <div class="accordion-block-header">
+                  <div class="btn btn--options" style="min-width:22px; height:22px;">
+                    <span class="icon">i</span>
+                  </div>
+                  <div class="accordion-block-title">
+                    <span>Links / Docs</span>
+                    <span class="accordion-block-subtitle">быстрые ссылки на документацию и репозитории</span>
+                  </div>
+                </div>
+              </div>
+            </button>
+            <div class="accordion-body">
+              <div class="accordion-block">
+                <div class="accordion-block-body">
+                  <ul style="margin:0; padding-left:18px; font-size:12px; color:#cbd5e1; list-style:disc;">
+                    <li><code>BUTTON.html</code> — визуальная легенда старых кнопок.</li>
+                    <li><code>BUTTON.NEW.html</code> — новая легенда / макет.</li>
+                    <li>Internal Wiki: <em>URL проекта / Confluence / Notion</em>.</li>
+                    <li>Git‑репозиторий: <em>link to PHPAirButtons repo</em>.</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="overlay" id="overlay">
+    <div class="popup" role="dialog" aria-modal="true" aria-label="Popup">
+      <div class="popup-header">
+        <div class="popup-title">Popup / iframe demo</div>
+        <a href="#close-popup" class="button-row" id="closePopupBtn" title="Закрыть popup">
+          <span class="btn btn--delete" aria-hidden="true"><span class="icon">✖</span></span>
+          <span class="btn-label">Закрыть</span>
+        </a>
+      </div>
+      <div class="popup-body">
+        В проекте сюда можно встроить форму редактирования в iframe; после закрытия — обновить фрагмент страницы через AJAX.
+        <br><br>
+        Обычно для этого используют пару функций открытия/закрытия popup (имена зависят от проекта).
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      const overlay = document.getElementById('overlay');
+      const openBtn = document.getElementById('openPopupBtn');
+      const closeBtn = document.getElementById('closePopupBtn');
+
+      function open() { overlay.classList.add('is-open'); }
+      function close() { overlay.classList.remove('is-open'); }
+
+      if (openBtn) {
+        openBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          open();
+        });
+      }
+      if (closeBtn) {
+        closeBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          close();
+        });
+      }
+      overlay.addEventListener('click', (e) => { if (e.target === overlay) close(); });
+      window.addEventListener('keydown', (e) => { if (e.key === 'Escape') close(); });
+
+      // Accordion logic for AdminPanelTools
+      const accordionRoot = document.querySelector('[data-adminpaneltools-accordion]');
+      if (accordionRoot) {
+        accordionRoot.addEventListener('click', (event) => {
+          const header = event.target.closest('.accordion-header');
+          if (!header) return;
+          const item = header.closest('.accordion-item');
+          if (!item) return;
+
+          const isOpen = item.classList.contains('is-open');
+          // закрываем все
+          accordionRoot.querySelectorAll('.accordion-item').forEach((el) => el.classList.remove('is-open'));
+          // и открываем кликнутый, если он был закрыт
+          if (!isOpen) {
+            item.classList.add('is-open');
+          }
+        });
+      }
+    })();
+  </script>
+</body>
+</html>
+
